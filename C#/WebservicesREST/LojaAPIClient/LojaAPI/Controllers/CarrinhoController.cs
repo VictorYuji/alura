@@ -33,5 +33,11 @@ namespace LojaAPI.Controllers
             return response;
 
         }
+        [Route ("api/carrinho/{idCarrinho}/produto/{idProduto}")]
+        public HttpResponseMessage Delete([FromUri]int idCarrinho,[FromUri] int idProduto)
+        {
+            new CarrinhoDAO().Busca(idCarrinho).Remove(idProduto);
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
     }
 }
