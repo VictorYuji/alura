@@ -12,15 +12,25 @@ namespace LojaAPI.Controllers
 {
     public class CarrinhoController : ApiController
     {
-        public Carrinho Get(int id)
+        public HttpResponseMessage Get(int id)
         {
-            return new CarrinhoDAO().Busca(id);
+            try
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, new CarrinhoDAO().Busca(id));   
+            }
+            catch(KeyNotFoundException) 
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, new HttpError(string.Format("O carrinho {0} não foi encontrado", id)));
+            }
         }
 
-        public string Post([FromBody]Carrinho carrinho)
+        public HttpResponseMessage Post([FromBody]Carrinho carrinho)
         {
             new CarrinhoDAO().Adiciona(carrinho);
-            return "sucesso";
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.Created);
+            string location = Url.Link("DefaultApi", new {controller = "carrinho", id = carrinho.Id});
+            response.Headers.Location = new Uri(location);
+            return response;
 
         }
     }

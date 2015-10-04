@@ -32,6 +32,28 @@ namespace LojaAPIClient
             Console.ReadKey();
         }
 
+        static void TestaPostJson()
+        {
+            string conteudo;
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:5230/api/carrinho");
+            request.Method = "POST";
+            request.Accept = "application/json";
+
+            string json = "{'Produtos':[{'Id':6237,'Preco':2000.0,'Nome':'Vitaogame 4','Quantidade':1},{'Id':3467,'Preco':60.0,'Nome':'Jogo de esporte','Quantidade':2}],'Endereco':'Rua Vergueiro 3185, 8 andar, Sao Paulo','Id':1}'";
+            byte[] jsonBytes = Encoding.UTF8.GetBytes(json);
+            request.GetRequestStream().Write(jsonBytes, 0, jsonBytes.Length);
+            request.ContentType = "application/json";
+
+            WebResponse response = request.GetResponse();
+            using (Stream responseStream = response.GetResponseStream())
+            {
+                StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
+                conteudo = reader.ReadToEnd();
+            }
+            Console.Write(conteudo);
+            Console.ReadKey();
+        }
+
         static void TestaPostXML()
         {
             string conteudo;
