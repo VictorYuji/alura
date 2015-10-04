@@ -12,9 +12,16 @@ namespace LojaAPI.Controllers
 {
     public class CarrinhoController : ApiController
     {
-        public string Get(int id)
+        public Carrinho Get(int id)
         {
-            return new CarrinhoDAO().Busca(id).ToXml();
+            return new CarrinhoDAO().Busca(id);
+        }
+
+        public string Post([FromBody]Carrinho carrinho)
+        {
+            new CarrinhoDAO().Adiciona(carrinho);
+            return "sucesso";
+
         }
     }
 }
