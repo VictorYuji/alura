@@ -41,10 +41,10 @@ namespace LojaAPI.Controllers
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
-        [Route("api/carrinho/{idCarrinho}/produto/{idProduto}")]
-        public HttpResponseMessage Put([FromUri] Produto produto, [FromUri] int idCarrinho,[FromUri] int idProduto)
+        [Route("api/carrinho/{idCarrinho}/produto/{idProduto}/quantidade")]
+        public HttpResponseMessage Put([FromBody] Produto produto, [FromUri] int idCarrinho,[FromUri] int idProduto)
         {
-            new CarrinhoDAO().Busca(idCarrinho).Troca(produto);
+            new CarrinhoDAO().Busca(idCarrinho).TrocaQuantidade(produto);
             return Request.CreateResponse(HttpStatusCode.OK);
 
         }
